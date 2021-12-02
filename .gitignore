@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 AdventOfCode2020/dist
+AdventOfCode2021/dist
