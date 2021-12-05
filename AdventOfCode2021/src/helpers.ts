@@ -31,6 +31,8 @@ export function end(time: number, answer: any, execution: Execution) {
     } else {
       consola.default.error("Invalid, must be " + execution.answer);
     }
+  } else {
+    consola.default.warn("No answer provided");
   }
 
   consola.default.info("Answer   " + answer);

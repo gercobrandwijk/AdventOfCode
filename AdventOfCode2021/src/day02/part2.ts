@@ -4,7 +4,7 @@ import { end, readAsLines, start } from "../helpers";
 let { time, execution } = start(
     [
         { file: "test", answer: 900 },
-        { file: "input", answer: undefined },
+        { file: "input", answer: 1781819478 },
     ],
     false
 );
