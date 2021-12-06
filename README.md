@@ -4,19 +4,18 @@
 
 2018: Reached day 14! (C#)
 
-2019: Reached day 15, There is progress! (C#)
+2019: Reached day 15, there is progress! (C#)
 
+2020: Had to reach day 16, but stopped at day 13... (TypeScript, NodeJS)
 
 
 ### Now
 
-2020: Till day 16? (TypeScript, NodeJS)
+2021: Till day 17? (TypeScript, NodeJS)
 
 
 
 ### Forecast
-
-2021: Till day 17
 
 2022: Till day 18
 
