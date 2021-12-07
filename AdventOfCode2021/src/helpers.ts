@@ -56,8 +56,16 @@ export function readAsLines(
   day: string,
   execution: Execution,
   seperator: string = "\r\n"
-) {
+): string[] {
   return read(day, execution).split(seperator);
+}
+
+export function readFirstLineAsNumbers(
+  day: string,
+  execution: Execution,
+  seperator: string = "\r\n"
+): number[] {
+  return read(day, execution).split(seperator)[0].split(',').map(x => parseInt(x));
 }
 
 export function writeFile(day: string, name: string, data: string) {
