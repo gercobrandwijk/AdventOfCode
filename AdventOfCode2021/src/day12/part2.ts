@@ -12,40 +12,65 @@ let { time, execution } = start(
 let lines = readAsLines("12", execution);
 
 class Cave {
+    isStart: boolean;
+    isEnd: boolean;
+
     isBig: boolean;
+
     links: Cave[] = [];
 
     constructor(public name: string) {
+        this.isStart = name === 'start';
+        this.isEnd = name === 'end';
+
         this.isBig = name.toUpperCase() === name;
     }
 }
 
 let points: { [key: string]: Cave } = {};
-let startPoint: Cave;
-let endPoint: Cave;
+let startCave: Cave;
+let endCave: Cave;
+
+let smallCaves: Cave[] = [];
 
 lines.forEach(x => {
-    let start = x.split('-')[0];
-    let end = x.split('-')[1];
+    let from = x.split('-')[0];
+    let to = x.split('-')[1];
 
-    if (!points[start]) {
-        points[start] = new Cave(start);
+    if (!points[from]) {
+        points[from] = new Cave(from);
+
+        if (!points[from].isStart && !points[from].isEnd && !points[from].isBig) {
+            smallCaves.push(points[from]);
+        }
+
+        if (!startCave && points[from].isStart) {
+            startCave = points[from];
+        }
+
+        if (!endCave && points[from].isEnd) {
+            endCave = points[from];
+        }
     }
 
-    if (!points[end]) {
-        points[end] = new Cave(end);
+    if (!points[to]) {
+        points[to] = new Cave(to);
+
+        if (!points[to].isStart && !points[to].isEnd && !points[to].isBig) {
+            smallCaves.push(points[to]);
+        }
+
+        if (!startCave && points[to].isStart) {
+            startCave = points[to];
+        }
+
+        if (!endCave && points[to].isEnd) {
+            endCave = points[to];
+        }
     }
 
-    if (!startPoint && start === 'start') {
-        startPoint = points[start];
-    }
-
-    if (!endPoint && end === 'end') {
-        endPoint = points[end];
-    }
-
-    points[start].links.push(points[end]);
-    points[end].links.push(points[start]);
+    points[from].links.push(points[to]);
+    points[to].links.push(points[from]);
 })
 
 function getPath(steps: Cave[]) {
@@ -64,7 +89,7 @@ function getPath(steps: Cave[]) {
     return route;
 }
 
-let possiblePaths = new Set();
+let possiblePaths = [];
 
 function findPaths(steps: Cave[], smallCave: Cave, smallCaveAlreadyAllowedTwice: boolean = false) {
     let cave = steps[steps.length - 1];
@@ -89,24 +114,23 @@ function findPaths(steps: Cave[], smallCave: Cave, smallCaveAlreadyAllowedTwice:
         }
     }
 
-    if (cave === endPoint) {
-        possiblePaths.add(getPath(steps));
-    } else {
-        for (let link of cave.links) {
-            let newSteps = [...steps];
-            newSteps.push(link);
+    for (let nextCave of cave.links) {
+        steps.push(nextCave);
 
-            findPaths(newSteps, smallCave, smallCaveAlreadyAllowedTwice);
+        if (nextCave === endCave) {
+            possiblePaths.push(getPath(steps));
+        } else {
+            findPaths(steps, smallCave, smallCaveAlreadyAllowedTwice);
         }
+
+        steps.pop();
     }
 }
 
-let smallCaves = Object.keys(points).map(x => points[x]).filter(x => !x.isBig && x !== startPoint && x !== endPoint);
-
 for (let smallCave of smallCaves) {
-    findPaths([startPoint], smallCave);
+    findPaths([startCave], smallCave);
 }
 
-let answer = possiblePaths.size;
+let answer = _.uniq(possiblePaths).length;
 
 end(time, answer, execution);

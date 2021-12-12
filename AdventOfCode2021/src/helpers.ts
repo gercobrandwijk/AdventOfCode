@@ -24,6 +24,14 @@ export function start(
   return result;
 }
 
+export function timeStamp(time: number, message: string = null) {
+  if (message) {
+    console.log('Stamp at ' + (new Date().getTime() - time) + 'ms: ' + message);
+  } else {
+    console.log('Stamp at ' + (new Date().getTime() - time) + 'ms');
+  }
+}
+
 export function end(time: number, answer: any, execution: Execution) {
   let executionTime = new Date().getTime() - time;
 
