@@ -48,14 +48,14 @@ lines.forEach(x => {
     points[end].links.push(points[start]);
 })
 
-function getPath(paths: Cave[]) {
+function getPath(steps: Cave[]) {
     let route;
 
-    for (let cave of paths) {
+    for (let cave of steps) {
         if (!route) {
             route = cave.name;
         } else {
-            route += ' -> ' + cave.name;
+            route += ',' + cave.name;
         }
     }
 
@@ -64,15 +64,15 @@ function getPath(paths: Cave[]) {
     return route;
 }
 
-let possiblePaths = [];
+let possiblePaths = new Set();
 
-function findPaths(path: Cave[], smallCave: Cave, smallCaveAlreadyAllowedTwice: boolean = false) {
-    let cave = path[path.length - 1];
+function findPaths(steps: Cave[], smallCave: Cave, smallCaveAlreadyAllowedTwice: boolean = false) {
+    let cave = steps[steps.length - 1];
 
-    let pathIndex = path.indexOf(cave);
+    let pathIndex = steps.indexOf(cave);
 
     if (!cave.isBig) {
-        let firstVisit = pathIndex >= 0 && pathIndex === path.length - 1;
+        let firstVisit = pathIndex >= 0 && pathIndex === steps.length - 1;
 
         let allow = false;
 
@@ -90,10 +90,10 @@ function findPaths(path: Cave[], smallCave: Cave, smallCaveAlreadyAllowedTwice: 
     }
 
     if (cave === endPoint) {
-        possiblePaths.push(getPath(path));
+        possiblePaths.add(getPath(steps));
     } else {
         for (let link of cave.links) {
-            let newSteps = [...path];
+            let newSteps = [...steps];
             newSteps.push(link);
 
             findPaths(newSteps, smallCave, smallCaveAlreadyAllowedTwice);
@@ -107,6 +107,6 @@ for (let smallCave of smallCaves) {
     findPaths([startPoint], smallCave);
 }
 
-let answer = _.uniq(possiblePaths).length;
+let answer = possiblePaths.size;
 
 end(time, answer, execution);

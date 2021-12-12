@@ -48,10 +48,10 @@ lines.forEach(x => {
   points[end].links.push(points[start]);
 })
 
-function printPath(paths: Cave[]) {
+function printPath(steps: Cave[]) {
   let route;
 
-  for (let cave of paths) {
+  for (let cave of steps) {
     if (!route) {
       route = cave.name;
     } else {
@@ -62,15 +62,15 @@ function printPath(paths: Cave[]) {
   // console.log(route);
 }
 
-function findPaths(path: Cave[]) {
-  let cave = path[path.length - 1];
+function findPaths(steps: Cave[]) {
+  let cave = steps[steps.length - 1];
 
   let possiblePaths = 0;
 
-  let pathIndex = path.indexOf(cave);
+  let pathIndex = steps.indexOf(cave);
 
   if (!cave.isBig) {
-    let firstVisit = pathIndex >= 0 && pathIndex === path.length - 1;
+    let firstVisit = pathIndex >= 0 && pathIndex === steps.length - 1;
 
     if (!firstVisit) {
       return possiblePaths;
@@ -80,10 +80,10 @@ function findPaths(path: Cave[]) {
   if (cave === endPoint) {
     possiblePaths += 1;
 
-    printPath(path);
+    printPath(steps);
   } else {
     for (let link of cave.links) {
-      let newSteps = [...path];
+      let newSteps = [...steps];
       newSteps.push(link);
 
       possiblePaths += findPaths(newSteps);
