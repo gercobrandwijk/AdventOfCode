@@ -25,6 +25,8 @@ export function start(
 }
 
 export function end(time: number, answer: any, execution: Execution) {
+  let executionTime = new Date().getTime() - time;
+
   if (execution.answer) {
     if (answer === execution.answer) {
       consola.default.success("Valid");
@@ -37,8 +39,6 @@ export function end(time: number, answer: any, execution: Execution) {
 
   consola.default.info("Answer   " + answer);
 
-  let executionTime = new Date().getTime() - time;
-
   consola.default.info("Time     " + executionTime + "ms");
 
   console.log();
@@ -47,6 +47,10 @@ export function end(time: number, answer: any, execution: Execution) {
 }
 
 export function read(day: string, execution: Execution) {
+  if (execution.file.startsWith("test")) {
+    consola.default.warn("USING TEST FILE");
+  }
+
   return fs.readFileSync("src/day" + day + "/_" + execution.file + ".txt", {
     encoding: "utf8",
   });

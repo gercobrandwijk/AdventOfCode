@@ -1,19 +1,17 @@
-import * as fs from "fs";
 import * as _ from "lodash";
-import * as consola from "consola";
+import { end, readAsLines, start } from "../helpers";
 
-var time = new Date();
+let { time, execution } = start(
+  [
+    { file: "test", answer: 7 },
+    { file: "input", answer: 1448 },
+  ],
+  false
+);
 
-let day = "01";
+let lines = readAsLines("01", execution);
 
-// let input = fs.readFileSync("src/day" + day + "/_test.txt", {
-//   encoding: "utf8",
-// });
-let input = fs.readFileSync("src/day" + day + "/_input.txt", {
-  encoding: "utf8",
-});
-
-let numbers = input.split("\n").map((x) => parseInt(x, 10));
+let numbers = lines.map(x => parseInt(x));
 
 function calculate(): number {
   let counter = 0;
@@ -29,19 +27,4 @@ function calculate(): number {
 
 let answer = calculate();
 
-consola.default.info("Answer: " + answer);
-
-let validAnswer = 1448;
-
-validAnswer
-  ? answer === validAnswer
-    ? consola.default.success("Valid")
-    : consola.default.error("Not valid anymore, answer must be " + validAnswer)
-  : consola.default.warn("No valid answer known yet");
-
-let executionTime = new Date().getTime() - time.getTime();
-
-console.info(executionTime + "ms");
-console.log();
-
-process.send(executionTime);
+end(time, answer, execution);
