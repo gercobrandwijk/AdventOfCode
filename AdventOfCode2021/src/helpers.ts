@@ -38,6 +38,8 @@ export function end(time: number, answer: any, execution: Execution) {
   if (execution.answer) {
     if (answer === execution.answer) {
       consola.default.success("Valid");
+    } else if (answer.indexOf("VISUALISATION") >= 0) {
+      consola.default.success("Manual validation needed, because result is a visualisation");
     } else {
       consola.default.error("Invalid, must be " + execution.answer);
     }
