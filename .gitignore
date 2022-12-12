@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 AdventOfCode2020/dist
 AdventOfCode2021/dist
+AdventOfCode2022/dist
