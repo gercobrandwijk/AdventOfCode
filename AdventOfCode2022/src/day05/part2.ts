@@ -4,7 +4,7 @@ import { end, read, start } from "../helpers";
 let { time, execution } = start(
     [
         { file: "test", answer: 'MCD' },
-        { file: "input", answer: undefined },
+        { file: "input", answer: 'BQDNWJPVJ' },
     ],
     false
 );
