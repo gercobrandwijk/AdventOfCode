@@ -47,7 +47,12 @@ export function end(time: number, answer: any, execution: Execution) {
     consola.default.warn("No answer provided");
   }
 
-  consola.default.info("Answer   " + answer);
+  if (typeof answer === 'string' && answer.indexOf('\r\n') >= 0) {
+    consola.default.info("Answer")
+    console.log(answer);
+  } else {
+    consola.default.info("Answer   " + answer);
+  }
 
   consola.default.info("Time     " + executionTime + "ms");
 
