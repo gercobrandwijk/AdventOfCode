@@ -19,13 +19,15 @@ enum OperationType {
 
 class Monkey {
     items: number[];
+
     operation: OperationType;
     operationBy: number;
-    testDivisibleBy: number;
+
+    testDivision: number;
     testTrueMonkey: number;
     testFalseMonkey: number;
 
-    inspectations: number = 0;
+    inspections: number = 0;
 
     constructor(lines: string[]) {
         this.items = lines[1].split(':')[1].split(',').map(x => parseInt(x.trim()));
@@ -44,7 +46,7 @@ class Monkey {
             this.operationBy = parseInt(operationString.split(' + ')[1]);
         }
 
-        this.testDivisibleBy = parseInt(lines[3].split('by ')[1]);
+        this.testDivision = parseInt(lines[3].split('by ')[1]);
         this.testTrueMonkey = parseInt(lines[4].split('monkey ')[1]);
         this.testFalseMonkey = parseInt(lines[5].split('monkey ')[1]);
     }
@@ -61,20 +63,22 @@ class Monkey {
     }
 
     test(worryLevel: number): boolean {
-        return worryLevel % this.testDivisibleBy === 0;
+        return worryLevel % this.testDivision === 0;
     }
 }
 
 let monkeys = _.chunk(lines, 7).map(x => new Monkey(x));
 
-let moduleValue = monkeys.map(x => x.testDivisibleBy).reduce((prev, curr) => prev * curr, 1);
+let moduleValue = monkeys.map(x => x.testDivision).reduce((prev, curr) => prev * curr, 1);
 
 let rounds = 10000;
 
 for (let i = 0; i < rounds; i++) {
     for (let monkey of monkeys) {
-        for (let item of monkey.items) {
-            monkey.inspectations++;
+        let item = monkey.items.shift();
+
+        while (item) {
+            monkey.inspections++;
 
             let newWorryLevel: number = monkey.operate(item);
 
@@ -85,12 +89,12 @@ for (let i = 0; i < rounds; i++) {
             } else {
                 monkeys[monkey.testFalseMonkey].items.push(newWorryLevel);
             }
-        }
 
-        monkey.items = [];
+            item = monkey.items.shift();
+        }
     }
 }
 
-let answer = _.sortBy(monkeys, x => x.inspectations).reverse().slice(0, 2).reduce((prev, curr) => prev * curr.inspectations, 1);
+let answer = _.sortBy(monkeys, x => x.inspections).reverse().slice(0, 2).reduce((prev, curr) => prev * curr.inspections, 1);
 
 end(time, answer, execution);

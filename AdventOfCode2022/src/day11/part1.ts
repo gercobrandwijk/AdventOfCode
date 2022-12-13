@@ -18,7 +18,7 @@ class Monkey {
     testTrueMonkey: number;
     testFalseMonkey: number;
 
-    inspectations: number = 0;
+    inspections: number = 0;
 
     constructor(lines: string[]) {
         this.items = lines[1].split(':')[1].split(',').map(x => parseInt(x.trim()));
@@ -52,7 +52,7 @@ let rounds = 20;
 for (let i = 0; i < rounds; i++) {
     for (let monkey of monkeys) {
         for (let item of monkey.items) {
-            monkey.inspectations++;
+            monkey.inspections++;
 
             let newWorryLevel: number = monkey.operate(item);
 
@@ -69,6 +69,6 @@ for (let i = 0; i < rounds; i++) {
     }
 }
 
-let answer = _.sortBy(monkeys, x => x.inspectations).reverse().slice(0, 2).reduce((prev, curr) => prev * curr.inspectations, 1);
+let answer = _.sortBy(monkeys, x => x.inspections).reverse().slice(0, 2).reduce((prev, curr) => prev * curr.inspections, 1);
 
 end(time, answer, execution);
