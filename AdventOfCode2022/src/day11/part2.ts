@@ -4,16 +4,23 @@ import { end, readAsLines, start } from "../helpers";
 let { time, execution } = start(
     [
         { file: "test", answer: 2713310158 },
-        { file: "input", answer: undefined },
+        { file: "input", answer: 30599555965 },
     ],
     false
 );
 
 let lines = readAsLines("11", execution);
 
+enum OperationType {
+    PlusBy,
+    MultiplyBy,
+    MultiplyBySelf
+}
+
 class Monkey {
     items: number[];
-    operation: string;
+    operation: OperationType;
+    operationBy: number;
     testDivisibleBy: number;
     testTrueMonkey: number;
     testFalseMonkey: number;
@@ -23,7 +30,19 @@ class Monkey {
     constructor(lines: string[]) {
         this.items = lines[1].split(':')[1].split(',').map(x => parseInt(x.trim()));
 
-        this.operation = lines[2].split('new = ')[1];
+        let operationString = lines[2].split('new = ')[1];
+
+        if (operationString.indexOf(' * ') >= 0) {
+            if (operationString.split(' * ')[1] === 'old') {
+                this.operation = OperationType.MultiplyBySelf;
+            } else {
+                this.operation = OperationType.MultiplyBy;
+                this.operationBy = parseInt(operationString.split(' * ')[1]);
+            }
+        } else if (operationString.indexOf(' + ') >= 0) {
+            this.operation = OperationType.PlusBy;
+            this.operationBy = parseInt(operationString.split(' + ')[1]);
+        }
 
         this.testDivisibleBy = parseInt(lines[3].split('by ')[1]);
         this.testTrueMonkey = parseInt(lines[4].split('monkey ')[1]);
@@ -31,13 +50,14 @@ class Monkey {
     }
 
     operate(worryLevel: number): number {
-        let evalOperation = this.operation;
-
-        while (evalOperation.indexOf('old') >= 0) {
-            evalOperation = evalOperation.replace('old', worryLevel.toString());
+        switch (this.operation) {
+            case OperationType.PlusBy:
+                return worryLevel + this.operationBy;
+            case OperationType.MultiplyBy:
+                return worryLevel * this.operationBy;
+            case OperationType.MultiplyBySelf:
+                return worryLevel * worryLevel;
         }
-
-        return parseInt(eval(evalOperation));
     }
 
     test(worryLevel: number): boolean {
