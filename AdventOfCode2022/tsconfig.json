@@ -5,6 +5,7 @@
     "target": "es6",
     "moduleResolution": "node",
     "outDir": "dist",
+    "sourceMap": true
   },
   "lib": ["es2020"]
 }
