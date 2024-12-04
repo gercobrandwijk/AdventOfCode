@@ -60,7 +60,14 @@ let days = fs.readdirSync(directoryPath).filter((x) => {
 let promiseChain = Promise.resolve();
 
 for (let day of days) {
-  let paths = ["dist/" + day + "/part1.js", "dist/" + day + "/part2.js"];
+  let paths = [];
+
+  if (!process.argv[3]) {
+    paths.push("dist/" + day + "/part1.js");
+    paths.push("dist/" + day + "/part2.js");
+  } else {
+    paths.push("dist/" + day + "/" + process.argv[3] + ".js");
+  }
 
   for (let path of paths) {
     promiseChain = promiseChain.then(() => {

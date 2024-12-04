@@ -2,13 +2,10 @@ import * as fs from "fs";
 import * as consola from "consola";
 import { Execution } from "./models";
 
-export function start(
-  executions: Execution[],
-  executionIndex: number
-) {
+export function start(executions: Execution[], executionIndex: number) {
   let result = {
     time: new Date().getTime(),
-    execution: executions[executionIndex]
+    execution: executions[executionIndex],
   };
 
   if (!result.execution) {
@@ -20,9 +17,9 @@ export function start(
 
 export function timeStamp(time: number, message: string = null) {
   if (message) {
-    console.log('Stamp at ' + (new Date().getTime() - time) + 'ms: ' + message);
+    console.log("Stamp at " + (new Date().getTime() - time) + "ms: " + message);
   } else {
-    console.log('Stamp at ' + (new Date().getTime() - time) + 'ms');
+    console.log("Stamp at " + (new Date().getTime() - time) + "ms");
   }
 }
 
@@ -32,8 +29,14 @@ export function end(time: number, answer: any, execution: Execution) {
   if (execution.answer) {
     if (answer === execution.answer) {
       consola.default.success("Valid");
-    } else if (answer && typeof answer === 'string' && answer.indexOf("VISUALISATION") >= 0) {
-      consola.default.success("Manual validation needed, because result is a visualisation");
+    } else if (
+      answer &&
+      typeof answer === "string" &&
+      answer.indexOf("VISUALISATION") >= 0
+    ) {
+      consola.default.success(
+        "Manual validation needed, because result is a visualisation"
+      );
     } else {
       consola.default.error("Invalid, must be " + execution.answer);
     }
@@ -41,8 +44,8 @@ export function end(time: number, answer: any, execution: Execution) {
     consola.default.warn("No answer provided");
   }
 
-  if (typeof answer === 'string' && answer.indexOf('\r\n') >= 0) {
-    consola.default.info("Answer")
+  if (typeof answer === "string" && answer.indexOf("\r\n") >= 0) {
+    consola.default.info("Answer");
     console.log(answer);
   } else {
     consola.default.info("Answer   " + answer);
@@ -78,9 +81,28 @@ export function readFirstLineAsNumbers(
   execution: Execution,
   seperator: string = "\r\n"
 ): number[] {
-  return read(day, execution).split(seperator)[0].split(',').map(x => parseInt(x));
+  return read(day, execution)
+    .split(seperator)[0]
+    .split(",")
+    .map((x) => parseInt(x));
 }
 
 export function writeFile(day: string, name: string, data: string) {
   fs.writeFileSync("dist/day" + day + "/output_" + name + ".txt", data);
+}
+
+let config = {
+  logging: true,
+};
+
+export function setConfigLogging(enabled: boolean) {
+  config.logging = enabled;
+}
+
+export function log(message: string) {
+  if (!config.logging) {
+    return;
+  }
+
+  console.log(message);
 }
