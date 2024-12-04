@@ -55,7 +55,7 @@ export function end(time: number, answer: any, execution: Execution) {
 
   console.log();
 
-  // process.send(executionTime);
+  process.send(executionTime);
 }
 
 export function read(day: string, execution: Execution) {
