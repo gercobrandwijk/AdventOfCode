@@ -4,7 +4,7 @@ import { end, readAsLines, setConfigLogging, start } from "../helpers";
 let { time, execution } = start(
   [
     { file: "test", answer: 9 },
-    { file: "input", answer: undefined },
+    { file: "input", answer: 2003 },
   ],
   1
 );
