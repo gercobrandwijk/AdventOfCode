@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { end, readAsLines, start } from "../helpers";
+import { end, readAsLines, setConfigLogging, start } from "../helpers";
 
 let { time, execution } = start(
   [
@@ -8,6 +8,8 @@ let { time, execution } = start(
   ],
   0
 );
+
+setConfigLogging(true);
 
 let lines = readAsLines("XX", execution);
 
