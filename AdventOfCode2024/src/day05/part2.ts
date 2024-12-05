@@ -45,8 +45,8 @@ let middleValues = [];
 for (let update of updates) {
   log("update", update);
 
-  let isValidRecord = (record): { isValid: boolean; index?: number } => {
-    for (let i = 0; i < record.length; i++) {
+  let isValidRecord = (record, startIndex): { isValid: boolean; index?: number } => {
+    for (let i = startIndex; i < record.length; i++) {
       let currentRules = rules[record[i]];
 
       if (!currentRules) {
@@ -65,13 +65,13 @@ for (let update of updates) {
     return { isValid: true };
   };
 
-  let isValid = isValidRecord(update).isValid;
+  let isValid = isValidRecord(update, 0).isValid;
 
   if (!isValid) {
     let validRecordResult: { isValid: boolean; index?: number };
 
     do {
-      validRecordResult = isValidRecord(update);
+      validRecordResult = isValidRecord(update, validRecordResult && validRecordResult.index > 0 ? validRecordResult.index - 1 : 1);
 
       if (!validRecordResult.isValid) {
         let value = update[validRecordResult.index - 1];
