@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "build-and-watch": "tsc -w",
     "execute": "node dist/runner.js",
     "execute-today": "node dist/runner.js today"
