@@ -99,10 +99,10 @@ export function setConfigLogging(enabled: boolean) {
   config.logging = enabled;
 }
 
-export function log(message: string) {
+export function log(message?: any, ...optionalParams: any[]) {
   if (!config.logging) {
     return;
   }
 
-  console.log(message);
+  console.log(message, optionalParams);
 }
