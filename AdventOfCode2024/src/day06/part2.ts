@@ -4,12 +4,12 @@ import { end, readAsLines, setConfigLogging, start } from "../helpers";
 let { time, execution } = start(
   [
     { file: "test", answer: 6 },
-    { file: "input", answer: undefined },
+    { file: "input", answer: 1723 },
   ],
   1
 );
 
-setConfigLogging(true);
+setConfigLogging(false);
 
 let lines = readAsLines("06", execution);
 

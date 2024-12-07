@@ -9,7 +9,7 @@ let { time, execution } = start(
   1
 );
 
-setConfigLogging(true);
+setConfigLogging(false);
 
 let isValidPosition = (grid, x, y) => {
   return x >= 0 && x < grid.length && y >= 0 && y < grid[0].length;

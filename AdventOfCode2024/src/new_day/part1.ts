@@ -9,7 +9,7 @@ let { time, execution } = start(
   0
 );
 
-setConfigLogging(true);
+setConfigLogging(false);
 
 let lines = readAsLines("XX", execution);
 
