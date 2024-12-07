@@ -34,7 +34,7 @@ for (let y = 0; y < lines.length && !position; y++) {
 }
 
 let visits = {};
-visits[position.x + "," + position.y] = 1;
+visits[position.x + "," + position.y] = true;
 
 let move = () => {
   let nextPosition = { x: position.x, y: position.y };
@@ -83,14 +83,14 @@ let move = () => {
   }
 
   if (!visits[nextPosition.x + "," + nextPosition.y]) {
-    visits[nextPosition.x + "," + nextPosition.y] = 1;
-  } else {
-    visits[nextPosition.x + "," + nextPosition.y]++;
+    visits[nextPosition.x + "," + nextPosition.y] = true;
   }
 
   if (
-    nextPosition.x === lines[0].length - 1 ||
-    nextPosition.y === lines.length - 1
+    (nextPosition.x === 0 && direction === Direction.West) ||
+    (nextPosition.y === 0 && direction === Direction.North) ||
+    (nextPosition.x === lines[0].length - 1 && direction === Direction.East) ||
+    (nextPosition.y === lines.length - 1 && direction === Direction.South)
   ) {
     return;
   }
